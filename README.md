@@ -1,6 +1,6 @@
 # compilation
 
-Compilation
+
 
 Vous pouvez compiler avec yacc/bison et lex/flex, ça ne change rien à part le nom des tables.
 
