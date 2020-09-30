@@ -1,8 +1,25 @@
 # compilation
+
 Compilation
 
 Vous pouvez compiler avec yacc/bison et lex/flex, ça ne change rien à part le nom des tables.
-Si vous avez des erreurs de compilation, dites-le moi.
-Si vous compilez avec Bison, il faut changer le nom de la table dans lex également.
-Pour l'instant ça ne doit retourner rien, tant qu'on a pas créé un fichier de test.
+
+  - fichier de tables bison.y
+  - fichier lex flex.l
+  - Makefile
+
+# Si vous avez des erreurs de compilation, dites-le moi!
+
+  - Si vous compilez avec Bison, il faut changer le nom de la table dans lex également.
+  - Drag and drop images (requires your Dropbox account be linked)
+
+
+Pour l'instant ça ne doit retourner rien, tant qu'on a pas créé un fichier de test. ...
+
+
+### Todos
+
+ - On va écrire ce qu'il y a à faire
+
+
 Les extensions peuvent être .l/.lex et .y/.yacc (ça ne change rien non plus)
