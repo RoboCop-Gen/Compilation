@@ -21,4 +21,4 @@ lex.yy.o : lex.yy.c
 	$(CC) -c lex.yy.c
 
 clean :
-	rm lex.yy.* y.tab.* *.o bison.output compi
+	rm -rf *.o *.yy.c *.output *.tab.h *.tab.c compi
