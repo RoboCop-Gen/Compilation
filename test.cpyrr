@@ -1,0 +1,14 @@
+program
+
+var v1 : int;
+var v4 : int;
+var v5 : int;
+
+begin
+
+v1 := 6;
+v4 := 7;
+
+v5 := 6 + 7;
+
+end
