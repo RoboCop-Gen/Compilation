@@ -10,7 +10,6 @@ GDB = -g
 main : yacc lex ./objets/lex.yy.o
 	$(CC) $(OPTIONS) bison.tab.c ./objets/lex.yy.o $(CLIBS) -o $(OUTPUT)
 
-
 yacc : bison.y
 	$(YACC) $(YFLAGS) bison.y
 
