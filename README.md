@@ -20,5 +20,9 @@ Pour l'instant ça ne doit retourner rien, tant qu'on a pas créé un fichier de
 
  - On va écrire ce qu'il y a à faire
 
+### Modifications 
+
+ - On peut décrire les modifications ici
+
 
 Les extensions peuvent être .l/.lex et .y/.yacc (ça ne change rien non plus)
