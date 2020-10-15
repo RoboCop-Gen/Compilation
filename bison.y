@@ -8,7 +8,7 @@ int yyerror();
 
 %token PROG
 %token PLUS MOINS MULT DIV MOD
-%token SUP SUP_EGL INF INF_EGL EGAL DIFF OPAFF
+%token SUP SUP_EGL INF INF_EGL EGAL DIFF OPAFF NOT
 %token VIRGULE POINT POINT_VIRGULE DEUX_POINTS
 %token PARENTHESE_OUVRANTE PARENTHESE_FERMANTE CROCHET_OUVRANT CROCHET_FERMANT
 %token AND OR
@@ -113,59 +113,78 @@ liste_args : liste_args VIRGULE un_arg
 
 un_arg : expression;
 
-condition : SI expression
+condition : SI expression_bool
             ALORS suite_liste_inst
             SINON suite_liste_inst;
 
-tant_que : TANT_QUE expression FAIRE liste_instructions;
+tant_que : TANT_QUE expression_bool FAIRE liste_instructions;
 
 affectation : variable OPAFF expression;
 
 variable : IDF
-         | IDF CROCHET_OUVRANT dim CROCHET_FERMANT
-         | IDF POINT stru
+         | IDF CROCHET_OUVRANT dimention_variable CROCHET_FERMANT
+         | IDF POINT structure_variable
          ;
 
-dim : dim VIRGULE expression2
-    | expression2
-    ;
+dimention_variable : dimention_variable VIRGULE expression_arithm
+                   | expression_arithm
+                   ;
 
-stru : stru POINT IDF
-     |IDF
-     ;
+structure_variable : structure_variable POINT IDF
+                   |IDF
+                   ;
 
-expression : expression OR expression1
-           | expression AND expression1
-           | expression1
+expression : expression_bool
+           | expression_arithm
            ;
 
-expression1 : expression1 SUP expression2
-            | expression1 SUP_EGL expression2
-            | expression1 INF expression2
-            | expression1 INF_EGL expression2
-            | expression1 EGAL expression2
-            | expression1 DIFF expression2
-            | expression2
-            ;
+expression_bool : expression_bool OR expression_bool1
+                | expression_bool1
+                ;
 
-expression2 : expression2 PLUS expression3
-            | expression2 MOINS expression3
-            | expression3
-            ;
+expression_bool1 : expression_bool1 AND expression_bool2
+                 | expression_bool2
+                 ;
 
-expression3 : expression3 MULT expression4
-            | expression3 DIV expression4
-            | expression3 MOD expression4
-            | expression4
-            ;
+expression_bool2 : NOT expression_bool3
+                 | expression_bool3
+                 ;
 
-expression4 : PARENTHESE_OUVRANTE expression1 PARENTHESE_FERMANTE
-            | IDF
-            | CSTE_ENTIERE
-            | CSTE_REELE
-            | CSTE_CARACTERE
-            | CSTE_CHAINE
-            | TRUE
-            | FALSE
-            ;
+expression_bool3 : PARENTHESE_OUVRANTE expression_bool PARENTHESE_FERMANTE
+                 | expression_comp
+                 | TRUE
+                 | FALSE
+                 ;
+
+expression_comp : expression_arithm SUP expression_arithm
+                | expression_arithm SUP_EGL expression_arithm
+                | expression_arithm INF expression_arithm
+                | expression_arithm INF_EGL expression_arithm
+                | expression_arithm EGAL expression_arithm
+                | expression_arithm DIFF expression_arithm
+                | expression_arithm EGAL TRUE
+                | expression_arithm DIFF FALSE
+                | TRUE EGAL expression_arithm
+                | FALSE DIFF expression_arithm
+
+                ;
+
+expression_arithm : expression_arithm PLUS expression_arithm1
+                  | expression_arithm MOINS expression_arithm1
+                  | expression_arithm1
+                  ;
+
+expression_arithm1 : expression_arithm1 MULT expression_arithm2
+                   | expression_arithm1 DIV expression_arithm2
+                   | expression_arithm1 MOD expression_arithm2
+                   | expression_arithm2
+                   ;
+
+expression_arithm2 : PARENTHESE_OUVRANTE expression_arithm PARENTHESE_FERMANTE
+                   | variable
+                   | CSTE_ENTIERE
+                   | CSTE_REELE
+                   | CSTE_CARACTERE
+                   | CSTE_CHAINE
+                   ;
 %%
