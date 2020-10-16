@@ -4,6 +4,8 @@
 
 int yylex();
 int yyerror();
+extern int ligne;
+extern int colonne;
 %}
 
 %token PROG
@@ -21,7 +23,7 @@ int yyerror();
 %token TRUE FALSE VIDE
 %token DEBUT FIN
 %token PROCEDURE FONCTION RETOURNE
-%token SI ALORS SINON TANT_QUE FAIRE
+%token SI ALORS SINON TANT_QUE FAIRE FINSI
 
 %%
 programme : PROG corps;
@@ -45,7 +47,7 @@ declaration : declaration_type
             | declaration_fonction
             ;
 
-declaration_type : TYPE IDF DEUX_POINTS EST suite_declaration_type;
+declaration_type : TYPE IDF DEUX_POINTS suite_declaration_type;
 
 suite_declaration_type : STRUCT liste_champs FSTRUCT
                        | TABLEAU dimension DE nom_type
@@ -75,7 +77,7 @@ type_simple : ENTIER
 
 declaration_variable : VARIABLE IDF DEUX_POINTS nom_type
 
-declaration_procedure : PROCEDURE IDF liste_parametres EST corps;
+declaration_procedure : PROCEDURE IDF liste_parametres corps;
 
 declaration_fonction : FONCTION IDF liste_parametres RETOURNE type_simple corps
 
@@ -113,11 +115,16 @@ liste_args : liste_args VIRGULE un_arg
 
 un_arg : expression;
 
-condition : SI expression_bool
-            ALORS suite_liste_inst
-            SINON suite_liste_inst;
+condition : SI expression_bool ALORS suite_liste_inst FINSI;
+          | condition_2
+          ;
 
-tant_que : TANT_QUE expression_bool FAIRE liste_instructions;
+condition_2 : SI expression_bool 
+              ALORS suite_liste_inst
+              SINON suite_liste_inst
+              FINSI;
+
+tant_que : TANT_QUE expression_bool liste_instructions;
 
 affectation : variable OPAFF expression;
 
@@ -188,3 +195,8 @@ expression_arithm2 : PARENTHESE_OUVRANTE expression_arithm PARENTHESE_FERMANTE
                    | CSTE_CHAINE
                    ;
 %%
+
+int yyerror(){
+      fprintf(stderr, "Erreur syntaxique ligne: %d colonne: %d\n ", ligne, colonne);
+      exit(-1);
+}
