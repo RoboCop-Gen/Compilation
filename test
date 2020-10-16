@@ -1,0 +1,109 @@
+program
+// les déclarations
+
+// les variables
+var v1 : int;
+var v4 : int;
+var v2 : int;
+var b : bool;
+var v1 : int;
+var v2 : float;
+var v3 : char;
+var v4 : int;
+var v5 : bool;
+var v7 : int;
+var f: float;
+var stru1 : s3;
+var v5 : int;
+var i : int;
+
+// structure
+type s2 : struct
+    c1 : int;
+    c2 : char;
+end struct; 
+
+// tableau de structure
+type t1 : tab[1..15] of s2;
+
+// function
+//function func(v7+v2) retourne : int;
+
+// tableau de int 2 dimensions
+type t2 : tab[1..15][2..5] of int;
+
+//tableau de int 4 dimensions
+type tor : tab[1..5][1..5][1..5][1..5] of int;
+
+//tableau de bool
+type t3 : tab[1..5][1..5] of bool;
+
+// structure 2
+type snow : struct
+    s : t1;
+    n : t3;
+    o : int;
+    w : char;
+end struct;
+
+// procedure
+procedure p9()
+var monflo : float;
+var unflo : float;
+
+begin
+monflo := 4.6;
+end;
+
+//function
+function f2(v1 : int) return int
+begin
+eturn(v1);
+end;
+
+var jon : snow;
+var noob : tor;
+
+// début du programme
+begin
+
+v1 := 6;
+b := false;
+v4 := 7;
+jon.s.c1:=2;
+jon.n:=true;
+jon.o:=1;
+jon.w:='.';
+
+tor[2,2,2,2]:=22;
+
+//somme
+v2 := v1 + v4;
+
+//multiplication
+v7 := v4 * v1;
+
+//si alors sinon
+if
+(v1 < v4)
+then
+v4 := v1;
+else
+v4 := 5;
+endif;
+
+//tant que
+while (b==true)
+begin
+v1 := v1 + v1;
+end;
+
+//tableau
+t2[1] := 77;
+
+//procédure
+p9(4);
+
+//fonction
+f2(v1);
+end
