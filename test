@@ -1,5 +1,4 @@
 program
-<<<<<<< HEAD
 // les déclarations
 
 // les variables
@@ -108,16 +107,3 @@ p9(4);
 //fonction
 f2(v1);
 end
-=======
-
-var v1 : int;
-var v4 : int;
-
-
-begin
-
-v1:=6;
-v4:=7;
-
-end
->>>>>>> Sergey
