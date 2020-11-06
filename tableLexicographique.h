@@ -20,10 +20,12 @@ struct tableSymbole
 {
   tableLexico data[DATA_LENGTH]; 
   int hashtable[32];
+  int cpt;
 };
 
 unsigned int hash(string lexeme); // Fonction pour hasher le lexeme en un numero
-void initialisationHashTable(tableSymbole ts); // Initialisation a -1 dans la table de hachage
-void initialisationTableLexico(tableSymbole ts); // Initialisation a -1 dans la table Lexico
+void initialisationHashTable(tableSymbole ts); // Initialisation a -1 dans la table de hashage
+void initialisationtable(tableSymbole ts); //Initialisation a -1 dans la table Lexico et le champ cpt dans la table symbole a 0 
+void stockageTableSymbole(tableSymbole ts, string lexeme); // On stocke les valeurs dans les tables Lexico et de hashage
 
 #endif

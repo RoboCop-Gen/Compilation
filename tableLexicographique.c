@@ -19,7 +19,7 @@ unsigned int hash(string lexeme)
   return hash_value;
 }
 
-// Initialisation a -1 dans la table de hachage
+// Initialisation a -1 dans la table de hashage
 void initialisationHashTable(tableSymbole ts)
 {
   for(int i = 0; i < LENGTH; i++)
@@ -28,13 +28,41 @@ void initialisationHashTable(tableSymbole ts)
   }
 }
 
-// Initialisation a -1 dans la table Lexico
-void initialisationTableLexico(tableSymbole ts)
+// Initialisation a -1 dans la table Lexico/ Initialisation a -1 dans la table Lexico et le champ cpt dans la table symbole a 0
+void initialisationTable(tableSymbole ts)
 {
+  ts->cpt = 0;
   for(int i = 0; i < DATA_LENGTH; i++)
   {
     ts->data[i].long = 0;
     ts->data[i].lexeme = NULL;
     ts->data[i].suivant = -1;
   }
+}
+
+void stockageTableSymbole(tableSymbole ts, string lexeme)
+{
+  unsigned int hc = hash(lexeme);
+  int n = strlen(lexeme);
+
+  ts->data[ts->cpt].long = n;
+  ts->data[ts->cpt].lexeme = lexeme;
+  
+
+  if(ts->hashtable[hc] == -1)
+  {
+    ts->hashtable[hc] = ts->cpt;
+  }
+  else
+  {
+    int tmp = ts->hashtable[hc];
+
+    while(ts->data[tmp].suivant != -1)
+    {
+      tmp = ts->data[tmp].suivant;
+    }
+    ts->data[tmp].suivant = ts->cpt; 
+  }
+
+  ts->cpt++;
 }
