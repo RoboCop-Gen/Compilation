@@ -1,14 +1,13 @@
 #ifndef TABLE_DECLARATION
 #define TABLE_DECLARATION
 
-#define LENGTH 5000;
+#define LENGTH 5000
 
 typedef char* string;
-typedef enum champ_nature champ_nature;
-typedef struct declaration *declaration;
-typedef struct tableDeclaration *tableDeclaration;
+typedef struct declaration declaration;
+typedef struct tableDeclaration tableDeclaration;
 
-enum champ_nature
+typedef enum
 {
   NATURE_VIDE,
   NATURE_STRUCTURE,
@@ -17,7 +16,7 @@ enum champ_nature
   NATURE_PARAMETRE,
   NATURE_PROCEDURE,
   NATURE_FONCTION
-};
+} champ_nature;
 
 struct declaration
 {
@@ -33,6 +32,5 @@ struct tableDeclaration
   struct declaration tab[LENGTH];
   int taille;
 };
-
 
 #endif
