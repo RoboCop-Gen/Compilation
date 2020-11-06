@@ -115,6 +115,7 @@ liste_args : liste_args VIRGULE un_arg
 
 un_arg : expression;
 
+<<<<<<< HEAD
 condition : SI expression_bool ALORS suite_liste_inst FINSI;
           | condition_2
           ;
@@ -125,6 +126,13 @@ condition_2 : SI expression_bool
               FINSI;
 
 tant_que : TANT_QUE expression_bool liste_instructions;
+=======
+condition : SI expression_bool
+            ALORS suite_liste_inst
+            SINON suite_liste_inst;
+
+tant_que : TANT_QUE expression_bool FAIRE liste_instructions;
+>>>>>>> Sergey
 
 affectation : variable OPAFF expression;
 
@@ -194,9 +202,13 @@ expression_arithm2 : PARENTHESE_OUVRANTE expression_arithm PARENTHESE_FERMANTE
                    | CSTE_CARACTERE
                    | CSTE_CHAINE
                    ;
+<<<<<<< HEAD
 %%
 
 int yyerror(){
       fprintf(stderr, "Erreur syntaxique ligne: %d colonne: %d\n ", ligne, colonne);
       exit(-1);
 }
+=======
+%%
+>>>>>>> Sergey
