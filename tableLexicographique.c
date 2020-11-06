@@ -18,3 +18,23 @@ unsigned int hash(string lexeme)
 
   return hash_value;
 }
+
+// Initialisation a -1 dans la table de hachage
+void initialisationHashTable(tableSymbole ts)
+{
+  for(int i = 0; i < LENGTH; i++)
+  {
+    ts->hashtable[i] = -1;
+  }
+}
+
+// Initialisation a -1 dans la table Lexico
+void initialisationTableLexico(tableSymbole ts)
+{
+  for(int i = 0; i < DATA_LENGTH; i++)
+  {
+    ts->data[i].long = 0;
+    ts->data[i].lexeme = NULL;
+    ts->data[i].suivant = -1;
+  }
+}
