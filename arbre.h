@@ -5,7 +5,12 @@
 #include<stdio.h>
 #include<string>
 
-// il reste à ajouter les définitions de tous les tokens.
+// les cste, comme dans le cours
+#define A_CSTE_E 1
+#define A_CSTE_R 2
+#define A_CSTE_C 3
+#define A_CSTE_CC 4
+#define A_BOOL 5
 
 union element{
     int t_int;

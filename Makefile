@@ -7,8 +7,11 @@ LEX = flex
 OUTPUT = toro
 GDB = -g
 
-main : yacc lex ./objets/lex.yy.o ./objets/pile.o
-	$(CC) $(OPTIONS) bison.tab.c ./objets/lex.yy.o ./objets/pile.o $(CLIBS) -o $(OUTPUT)
+main : yacc lex ./objets/lex.yy.o ./objets/pile.o ./objets/tableLexicographique.o
+	$(CC) $(OPTIONS) bison.tab.c ./objets/lex.yy.o ./objets/pile.o ./objets/tableLexicographique.o $(CLIBS) -o $(OUTPUT)
+
+table_lexico: tableLexicographique.h tableLexicographique.c	
+	$(CC) -c $(OPTIONS) tableLexicographique.c
 
 pile: pile.h pile.c
 	$(CC) -c $(OPTIONS) pile.c
@@ -24,6 +27,9 @@ lex : flex.l
 
 ./objets/pile.o : pile.c
 	$(CC) -c pile.c -o ./objets/pile.o
+
+./objets/tableLexicographique.o : tableLexicographique.c
+	$(CC) -c tableLexicographique.c -o ./objets/tableLexicographique.o	
 
 clean :
 	rm lex.yy.* bison.tab.* bison.output toro ./objets/*
