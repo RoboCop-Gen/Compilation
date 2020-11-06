@@ -45,24 +45,31 @@ void stockageTableSymbole(tableSymbole ts, string lexeme)
   unsigned int hc = hash(lexeme);
   int n = strlen(lexeme);
 
-  ts->data[ts->cpt].long = n;
-  ts->data[ts->cpt].lexeme = lexeme;
+  if(ts->cpt != DATA_LENGTH)
+  {
+    ts->data[ts->cpt].long = n;
+    ts->data[ts->cpt].lexeme = lexeme;
   
 
-  if(ts->hashtable[hc] == -1)
-  {
-    ts->hashtable[hc] = ts->cpt;
+    if(ts->hashtable[hc] == -1)
+    {
+      ts->hashtable[hc] = ts->cpt;
+    }
+    else
+    {
+      int tmp = ts->hashtable[hc];
+
+      while(ts->data[tmp].suivant != -1)
+      {
+        tmp = ts->data[tmp].suivant;
+      }
+      ts->data[tmp].suivant = ts->cpt; 
+    }
+
+    ts->cpt++;
   }
   else
   {
-    int tmp = ts->hashtable[hc];
-
-    while(ts->data[tmp].suivant != -1)
-    {
-      tmp = ts->data[tmp].suivant;
-    }
-    ts->data[tmp].suivant = ts->cpt; 
+    fprintf(stderr, "Table de Symboles pleine\n");
   }
-
-  ts->cpt++;
-}
+ }
