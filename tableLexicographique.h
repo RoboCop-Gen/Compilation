@@ -23,7 +23,7 @@ struct tableSymbole
 };
 
 unsigned int hash(string lexeme); // Fonction pour hasher le lexeme en un numero
-void initialisationHashTable(tableSymbole ts);
-void initialisationData(tableSymbole ts);
+void initialisationHashTable(tableSymbole ts); // Initialisation a -1 dans la table de hachage
+void initialisationTableLexico(tableSymbole ts); // Initialisation a -1 dans la table Lexico
 
 #endif
