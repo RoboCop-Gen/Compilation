@@ -5,7 +5,7 @@
 
 typedef char* string;
 typedef struct declaration declaration;
-typedef struct tableDeclaration tableDeclaration;
+
 
 typedef enum
 {
@@ -32,5 +32,7 @@ struct tableDeclaration
   struct declaration tab[LENGTH];
   int taille;
 };
+
+typedef struct tableDeclaration *tableDeclaration;
 
 #endif

@@ -1,0 +1,2245 @@
+Terminals unused in grammar
+
+   EST
+   FAIRE
+
+
+Grammar
+
+    0 $accept: programme $end
+
+    1 programme: PROG corps
+
+    2 corps: liste_declarations liste_instructions
+
+    3 liste_declarations: declaration POINT_VIRGULE liste_declarations
+    4                   | %empty
+
+    5 liste_instructions: DEBUT suite_liste_inst FIN
+
+    6 suite_liste_inst: instruction POINT_VIRGULE suite_liste_inst
+    7                 | %empty
+
+    8 declaration: declaration_type
+    9            | declaration_variable
+   10            | declaration_procedure
+   11            | declaration_fonction
+
+   12 declaration_type: TYPE IDF DEUX_POINTS suite_declaration_type
+
+   13 suite_declaration_type: STRUCT liste_champs FSTRUCT
+   14                       | TABLEAU dimension DE nom_type
+
+   15 dimension: dimension une_dimension
+   16          | une_dimension
+
+   17 une_dimension: CROCHET_OUVRANT CSTE_ENTIERE POINT POINT CSTE_ENTIERE CROCHET_FERMANT
+
+   18 liste_champs: un_champ POINT_VIRGULE liste_champs
+   19             | un_champ POINT_VIRGULE
+
+   20 un_champ: IDF DEUX_POINTS nom_type
+
+   21 nom_type: type_simple
+   22         | IDF
+
+   23 type_simple: ENTIER
+   24            | REEL
+   25            | BOOLEEN
+   26            | CARACTERE
+
+   27 declaration_variable: VARIABLE IDF DEUX_POINTS nom_type
+
+   28 declaration_procedure: PROCEDURE IDF liste_parametres corps
+
+   29 declaration_fonction: FONCTION IDF liste_parametres RETOURNE type_simple corps
+
+   30 liste_parametres: PARENTHESE_OUVRANTE liste_param PARENTHESE_FERMANTE
+   31                 | PARENTHESE_OUVRANTE PARENTHESE_FERMANTE
+
+   32 liste_param: un_param POINT_VIRGULE liste_param
+   33            | un_param
+
+   34 un_param: IDF DEUX_POINTS type_simple
+
+   35 instruction: affectation
+   36            | condition
+   37            | tant_que
+   38            | appel
+   39            | VIDE
+   40            | RETOURNE PARENTHESE_OUVRANTE resultat_retourne PARENTHESE_FERMANTE
+
+   41 resultat_retourne: expression
+   42                  | %empty
+
+   43 appel: IDF liste_arguments
+
+   44 liste_arguments: PARENTHESE_OUVRANTE liste_args PARENTHESE_FERMANTE
+   45                | %empty
+
+   46 liste_args: liste_args VIRGULE un_arg
+   47           | un_arg
+
+   48 un_arg: expression
+
+   49 condition: SI expression_bool ALORS suite_liste_inst FINSI
+   50          | condition_2
+
+   51 condition_2: SI expression_bool ALORS suite_liste_inst SINON suite_liste_inst FINSI
+
+   52 tant_que: TANT_QUE expression_bool liste_instructions
+
+   53 affectation: variable OPAFF expression
+
+   54 variable: IDF
+   55         | IDF CROCHET_OUVRANT dimention_variable CROCHET_FERMANT
+   56         | IDF POINT structure_variable
+
+   57 dimention_variable: dimention_variable VIRGULE expression_arithm
+   58                   | expression_arithm
+
+   59 structure_variable: structure_variable POINT IDF
+   60                   | IDF
+
+   61 expression: expression_bool
+   62           | expression_arithm
+
+   63 expression_bool: expression_bool OR expression_bool1
+   64                | expression_bool1
+
+   65 expression_bool1: expression_bool1 AND expression_bool2
+   66                 | expression_bool2
+
+   67 expression_bool2: NOT expression_bool3
+   68                 | expression_bool3
+
+   69 expression_bool3: PARENTHESE_OUVRANTE expression_bool PARENTHESE_FERMANTE
+   70                 | expression_comp
+   71                 | TRUE
+   72                 | FALSE
+
+   73 expression_comp: expression_arithm SUP expression_arithm
+   74                | expression_arithm SUP_EGL expression_arithm
+   75                | expression_arithm INF expression_arithm
+   76                | expression_arithm INF_EGL expression_arithm
+   77                | expression_arithm EGAL expression_arithm
+   78                | expression_arithm DIFF expression_arithm
+   79                | expression_arithm EGAL TRUE
+   80                | expression_arithm DIFF FALSE
+   81                | TRUE EGAL expression_arithm
+   82                | FALSE DIFF expression_arithm
+
+   83 expression_arithm: expression_arithm PLUS expression_arithm1
+   84                  | expression_arithm MOINS expression_arithm1
+   85                  | expression_arithm1
+
+   86 expression_arithm1: expression_arithm1 MULT expression_arithm2
+   87                   | expression_arithm1 DIV expression_arithm2
+   88                   | expression_arithm1 MOD expression_arithm2
+   89                   | expression_arithm2
+
+   90 expression_arithm2: PARENTHESE_OUVRANTE expression_arithm PARENTHESE_FERMANTE
+   91                   | variable
+   92                   | CSTE_ENTIERE
+   93                   | CSTE_REELE
+   94                   | CSTE_CARACTERE
+   95                   | CSTE_CHAINE
+
+
+Terminals, with rules where they appear
+
+$end (0) 0
+error (256)
+PROG (258) 1
+PLUS (259) 83
+MOINS (260) 84
+MULT (261) 86
+DIV (262) 87
+MOD (263) 88
+SUP (264) 73
+SUP_EGL (265) 74
+INF (266) 75
+INF_EGL (267) 76
+EGAL (268) 77 79 81
+DIFF (269) 78 80 82
+OPAFF (270) 53
+NOT (271) 67
+VIRGULE (272) 46 57
+POINT (273) 17 56 59
+POINT_VIRGULE (274) 3 6 18 19 32
+DEUX_POINTS (275) 12 20 27 34
+PARENTHESE_OUVRANTE (276) 30 31 40 44 69 90
+PARENTHESE_FERMANTE (277) 30 31 40 44 69 90
+CROCHET_OUVRANT (278) 17 55
+CROCHET_FERMANT (279) 17 55
+AND (280) 65
+OR (281) 63
+DE (282) 14
+EST (283)
+TYPE (284) 12
+VARIABLE (285) 27
+TABLEAU (286) 14
+STRUCT (287) 13
+FSTRUCT (288) 13
+IDF (289) 12 20 22 27 28 29 34 43 54 55 56 59 60
+ENTIER (290) 23
+REEL (291) 24
+CARACTERE (292) 26
+BOOLEEN (293) 25
+CSTE_ENTIERE (294) 17 92
+CSTE_REELE (295) 93
+CSTE_CARACTERE (296) 94
+CSTE_CHAINE (297) 95
+TRUE (298) 71 79 81
+FALSE (299) 72 80 82
+VIDE (300) 39
+DEBUT (301) 5
+FIN (302) 5
+PROCEDURE (303) 28
+FONCTION (304) 29
+RETOURNE (305) 29 40
+SI (306) 49 51
+ALORS (307) 49 51
+SINON (308) 51
+TANT_QUE (309) 52
+FAIRE (310)
+FINSI (311) 49 51
+
+
+Nonterminals, with rules where they appear
+
+$accept (57)
+    on left: 0
+programme (58)
+    on left: 1, on right: 0
+corps (59)
+    on left: 2, on right: 1 28 29
+liste_declarations (60)
+    on left: 3 4, on right: 2 3
+liste_instructions (61)
+    on left: 5, on right: 2 52
+suite_liste_inst (62)
+    on left: 6 7, on right: 5 6 49 51
+declaration (63)
+    on left: 8 9 10 11, on right: 3
+declaration_type (64)
+    on left: 12, on right: 8
+suite_declaration_type (65)
+    on left: 13 14, on right: 12
+dimension (66)
+    on left: 15 16, on right: 14 15
+une_dimension (67)
+    on left: 17, on right: 15 16
+liste_champs (68)
+    on left: 18 19, on right: 13 18
+un_champ (69)
+    on left: 20, on right: 18 19
+nom_type (70)
+    on left: 21 22, on right: 14 20 27
+type_simple (71)
+    on left: 23 24 25 26, on right: 21 29 34
+declaration_variable (72)
+    on left: 27, on right: 9
+declaration_procedure (73)
+    on left: 28, on right: 10
+declaration_fonction (74)
+    on left: 29, on right: 11
+liste_parametres (75)
+    on left: 30 31, on right: 28 29
+liste_param (76)
+    on left: 32 33, on right: 30 32
+un_param (77)
+    on left: 34, on right: 32 33
+instruction (78)
+    on left: 35 36 37 38 39 40, on right: 6
+resultat_retourne (79)
+    on left: 41 42, on right: 40
+appel (80)
+    on left: 43, on right: 38
+liste_arguments (81)
+    on left: 44 45, on right: 43
+liste_args (82)
+    on left: 46 47, on right: 44 46
+un_arg (83)
+    on left: 48, on right: 46 47
+condition (84)
+    on left: 49 50, on right: 36
+condition_2 (85)
+    on left: 51, on right: 50
+tant_que (86)
+    on left: 52, on right: 37
+affectation (87)
+    on left: 53, on right: 35
+variable (88)
+    on left: 54 55 56, on right: 53 91
+dimention_variable (89)
+    on left: 57 58, on right: 55 57
+structure_variable (90)
+    on left: 59 60, on right: 56 59
+expression (91)
+    on left: 61 62, on right: 41 48 53
+expression_bool (92)
+    on left: 63 64, on right: 49 51 52 61 63 69
+expression_bool1 (93)
+    on left: 65 66, on right: 63 64 65
+expression_bool2 (94)
+    on left: 67 68, on right: 65 66
+expression_bool3 (95)
+    on left: 69 70 71 72, on right: 67 68
+expression_comp (96)
+    on left: 73 74 75 76 77 78 79 80 81 82, on right: 70
+expression_arithm (97)
+    on left: 83 84 85, on right: 57 58 62 73 74 75 76 77 78 79 80 81
+    82 83 84 90
+expression_arithm1 (98)
+    on left: 86 87 88 89, on right: 83 84 85 86 87 88
+expression_arithm2 (99)
+    on left: 90 91 92 93 94 95, on right: 86 87 88 89
+
+
+State 0
+
+    0 $accept: . programme $end
+
+    PROG  shift, and go to state 1
+
+    programme  go to state 2
+
+
+State 1
+
+    1 programme: PROG . corps
+
+    TYPE       shift, and go to state 3
+    VARIABLE   shift, and go to state 4
+    PROCEDURE  shift, and go to state 5
+    FONCTION   shift, and go to state 6
+
+    $default  reduce using rule 4 (liste_declarations)
+
+    corps                  go to state 7
+    liste_declarations     go to state 8
+    declaration            go to state 9
+    declaration_type       go to state 10
+    declaration_variable   go to state 11
+    declaration_procedure  go to state 12
+    declaration_fonction   go to state 13
+
+
+State 2
+
+    0 $accept: programme . $end
+
+    $end  shift, and go to state 14
+
+
+State 3
+
+   12 declaration_type: TYPE . IDF DEUX_POINTS suite_declaration_type
+
+    IDF  shift, and go to state 15
+
+
+State 4
+
+   27 declaration_variable: VARIABLE . IDF DEUX_POINTS nom_type
+
+    IDF  shift, and go to state 16
+
+
+State 5
+
+   28 declaration_procedure: PROCEDURE . IDF liste_parametres corps
+
+    IDF  shift, and go to state 17
+
+
+State 6
+
+   29 declaration_fonction: FONCTION . IDF liste_parametres RETOURNE type_simple corps
+
+    IDF  shift, and go to state 18
+
+
+State 7
+
+    1 programme: PROG corps .
+
+    $default  reduce using rule 1 (programme)
+
+
+State 8
+
+    2 corps: liste_declarations . liste_instructions
+
+    DEBUT  shift, and go to state 19
+
+    liste_instructions  go to state 20
+
+
+State 9
+
+    3 liste_declarations: declaration . POINT_VIRGULE liste_declarations
+
+    POINT_VIRGULE  shift, and go to state 21
+
+
+State 10
+
+    8 declaration: declaration_type .
+
+    $default  reduce using rule 8 (declaration)
+
+
+State 11
+
+    9 declaration: declaration_variable .
+
+    $default  reduce using rule 9 (declaration)
+
+
+State 12
+
+   10 declaration: declaration_procedure .
+
+    $default  reduce using rule 10 (declaration)
+
+
+State 13
+
+   11 declaration: declaration_fonction .
+
+    $default  reduce using rule 11 (declaration)
+
+
+State 14
+
+    0 $accept: programme $end .
+
+    $default  accept
+
+
+State 15
+
+   12 declaration_type: TYPE IDF . DEUX_POINTS suite_declaration_type
+
+    DEUX_POINTS  shift, and go to state 22
+
+
+State 16
+
+   27 declaration_variable: VARIABLE IDF . DEUX_POINTS nom_type
+
+    DEUX_POINTS  shift, and go to state 23
+
+
+State 17
+
+   28 declaration_procedure: PROCEDURE IDF . liste_parametres corps
+
+    PARENTHESE_OUVRANTE  shift, and go to state 24
+
+    liste_parametres  go to state 25
+
+
+State 18
+
+   29 declaration_fonction: FONCTION IDF . liste_parametres RETOURNE type_simple corps
+
+    PARENTHESE_OUVRANTE  shift, and go to state 24
+
+    liste_parametres  go to state 26
+
+
+State 19
+
+    5 liste_instructions: DEBUT . suite_liste_inst FIN
+
+    IDF       shift, and go to state 27
+    VIDE      shift, and go to state 28
+    RETOURNE  shift, and go to state 29
+    SI        shift, and go to state 30
+    TANT_QUE  shift, and go to state 31
+
+    $default  reduce using rule 7 (suite_liste_inst)
+
+    suite_liste_inst  go to state 32
+    instruction       go to state 33
+    appel             go to state 34
+    condition         go to state 35
+    condition_2       go to state 36
+    tant_que          go to state 37
+    affectation       go to state 38
+    variable          go to state 39
+
+
+State 20
+
+    2 corps: liste_declarations liste_instructions .
+
+    $default  reduce using rule 2 (corps)
+
+
+State 21
+
+    3 liste_declarations: declaration POINT_VIRGULE . liste_declarations
+
+    TYPE       shift, and go to state 3
+    VARIABLE   shift, and go to state 4
+    PROCEDURE  shift, and go to state 5
+    FONCTION   shift, and go to state 6
+
+    $default  reduce using rule 4 (liste_declarations)
+
+    liste_declarations     go to state 40
+    declaration            go to state 9
+    declaration_type       go to state 10
+    declaration_variable   go to state 11
+    declaration_procedure  go to state 12
+    declaration_fonction   go to state 13
+
+
+State 22
+
+   12 declaration_type: TYPE IDF DEUX_POINTS . suite_declaration_type
+
+    TABLEAU  shift, and go to state 41
+    STRUCT   shift, and go to state 42
+
+    suite_declaration_type  go to state 43
+
+
+State 23
+
+   27 declaration_variable: VARIABLE IDF DEUX_POINTS . nom_type
+
+    IDF        shift, and go to state 44
+    ENTIER     shift, and go to state 45
+    REEL       shift, and go to state 46
+    CARACTERE  shift, and go to state 47
+    BOOLEEN    shift, and go to state 48
+
+    nom_type     go to state 49
+    type_simple  go to state 50
+
+
+State 24
+
+   30 liste_parametres: PARENTHESE_OUVRANTE . liste_param PARENTHESE_FERMANTE
+   31                 | PARENTHESE_OUVRANTE . PARENTHESE_FERMANTE
+
+    PARENTHESE_FERMANTE  shift, and go to state 51
+    IDF                  shift, and go to state 52
+
+    liste_param  go to state 53
+    un_param     go to state 54
+
+
+State 25
+
+   28 declaration_procedure: PROCEDURE IDF liste_parametres . corps
+
+    TYPE       shift, and go to state 3
+    VARIABLE   shift, and go to state 4
+    PROCEDURE  shift, and go to state 5
+    FONCTION   shift, and go to state 6
+
+    $default  reduce using rule 4 (liste_declarations)
+
+    corps                  go to state 55
+    liste_declarations     go to state 8
+    declaration            go to state 9
+    declaration_type       go to state 10
+    declaration_variable   go to state 11
+    declaration_procedure  go to state 12
+    declaration_fonction   go to state 13
+
+
+State 26
+
+   29 declaration_fonction: FONCTION IDF liste_parametres . RETOURNE type_simple corps
+
+    RETOURNE  shift, and go to state 56
+
+
+State 27
+
+   43 appel: IDF . liste_arguments
+   54 variable: IDF .
+   55         | IDF . CROCHET_OUVRANT dimention_variable CROCHET_FERMANT
+   56         | IDF . POINT structure_variable
+
+    POINT                shift, and go to state 57
+    PARENTHESE_OUVRANTE  shift, and go to state 58
+    CROCHET_OUVRANT      shift, and go to state 59
+
+    OPAFF     reduce using rule 54 (variable)
+    $default  reduce using rule 45 (liste_arguments)
+
+    liste_arguments  go to state 60
+
+
+State 28
+
+   39 instruction: VIDE .
+
+    $default  reduce using rule 39 (instruction)
+
+
+State 29
+
+   40 instruction: RETOURNE . PARENTHESE_OUVRANTE resultat_retourne PARENTHESE_FERMANTE
+
+    PARENTHESE_OUVRANTE  shift, and go to state 61
+
+
+State 30
+
+   49 condition: SI . expression_bool ALORS suite_liste_inst FINSI
+   51 condition_2: SI . expression_bool ALORS suite_liste_inst SINON suite_liste_inst FINSI
+
+    NOT                  shift, and go to state 62
+    PARENTHESE_OUVRANTE  shift, and go to state 63
+    IDF                  shift, and go to state 64
+    CSTE_ENTIERE         shift, and go to state 65
+    CSTE_REELE           shift, and go to state 66
+    CSTE_CARACTERE       shift, and go to state 67
+    CSTE_CHAINE          shift, and go to state 68
+    TRUE                 shift, and go to state 69
+    FALSE                shift, and go to state 70
+
+    variable            go to state 71
+    expression_bool     go to state 72
+    expression_bool1    go to state 73
+    expression_bool2    go to state 74
+    expression_bool3    go to state 75
+    expression_comp     go to state 76
+    expression_arithm   go to state 77
+    expression_arithm1  go to state 78
+    expression_arithm2  go to state 79
+
+
+State 31
+
+   52 tant_que: TANT_QUE . expression_bool liste_instructions
+
+    NOT                  shift, and go to state 62
+    PARENTHESE_OUVRANTE  shift, and go to state 63
+    IDF                  shift, and go to state 64
+    CSTE_ENTIERE         shift, and go to state 65
+    CSTE_REELE           shift, and go to state 66
+    CSTE_CARACTERE       shift, and go to state 67
+    CSTE_CHAINE          shift, and go to state 68
+    TRUE                 shift, and go to state 69
+    FALSE                shift, and go to state 70
+
+    variable            go to state 71
+    expression_bool     go to state 80
+    expression_bool1    go to state 73
+    expression_bool2    go to state 74
+    expression_bool3    go to state 75
+    expression_comp     go to state 76
+    expression_arithm   go to state 77
+    expression_arithm1  go to state 78
+    expression_arithm2  go to state 79
+
+
+State 32
+
+    5 liste_instructions: DEBUT suite_liste_inst . FIN
+
+    FIN  shift, and go to state 81
+
+
+State 33
+
+    6 suite_liste_inst: instruction . POINT_VIRGULE suite_liste_inst
+
+    POINT_VIRGULE  shift, and go to state 82
+
+
+State 34
+
+   38 instruction: appel .
+
+    $default  reduce using rule 38 (instruction)
+
+
+State 35
+
+   36 instruction: condition .
+
+    $default  reduce using rule 36 (instruction)
+
+
+State 36
+
+   50 condition: condition_2 .
+
+    $default  reduce using rule 50 (condition)
+
+
+State 37
+
+   37 instruction: tant_que .
+
+    $default  reduce using rule 37 (instruction)
+
+
+State 38
+
+   35 instruction: affectation .
+
+    $default  reduce using rule 35 (instruction)
+
+
+State 39
+
+   53 affectation: variable . OPAFF expression
+
+    OPAFF  shift, and go to state 83
+
+
+State 40
+
+    3 liste_declarations: declaration POINT_VIRGULE liste_declarations .
+
+    $default  reduce using rule 3 (liste_declarations)
+
+
+State 41
+
+   14 suite_declaration_type: TABLEAU . dimension DE nom_type
+
+    CROCHET_OUVRANT  shift, and go to state 84
+
+    dimension      go to state 85
+    une_dimension  go to state 86
+
+
+State 42
+
+   13 suite_declaration_type: STRUCT . liste_champs FSTRUCT
+
+    IDF  shift, and go to state 87
+
+    liste_champs  go to state 88
+    un_champ      go to state 89
+
+
+State 43
+
+   12 declaration_type: TYPE IDF DEUX_POINTS suite_declaration_type .
+
+    $default  reduce using rule 12 (declaration_type)
+
+
+State 44
+
+   22 nom_type: IDF .
+
+    $default  reduce using rule 22 (nom_type)
+
+
+State 45
+
+   23 type_simple: ENTIER .
+
+    $default  reduce using rule 23 (type_simple)
+
+
+State 46
+
+   24 type_simple: REEL .
+
+    $default  reduce using rule 24 (type_simple)
+
+
+State 47
+
+   26 type_simple: CARACTERE .
+
+    $default  reduce using rule 26 (type_simple)
+
+
+State 48
+
+   25 type_simple: BOOLEEN .
+
+    $default  reduce using rule 25 (type_simple)
+
+
+State 49
+
+   27 declaration_variable: VARIABLE IDF DEUX_POINTS nom_type .
+
+    $default  reduce using rule 27 (declaration_variable)
+
+
+State 50
+
+   21 nom_type: type_simple .
+
+    $default  reduce using rule 21 (nom_type)
+
+
+State 51
+
+   31 liste_parametres: PARENTHESE_OUVRANTE PARENTHESE_FERMANTE .
+
+    $default  reduce using rule 31 (liste_parametres)
+
+
+State 52
+
+   34 un_param: IDF . DEUX_POINTS type_simple
+
+    DEUX_POINTS  shift, and go to state 90
+
+
+State 53
+
+   30 liste_parametres: PARENTHESE_OUVRANTE liste_param . PARENTHESE_FERMANTE
+
+    PARENTHESE_FERMANTE  shift, and go to state 91
+
+
+State 54
+
+   32 liste_param: un_param . POINT_VIRGULE liste_param
+   33            | un_param .
+
+    POINT_VIRGULE  shift, and go to state 92
+
+    $default  reduce using rule 33 (liste_param)
+
+
+State 55
+
+   28 declaration_procedure: PROCEDURE IDF liste_parametres corps .
+
+    $default  reduce using rule 28 (declaration_procedure)
+
+
+State 56
+
+   29 declaration_fonction: FONCTION IDF liste_parametres RETOURNE . type_simple corps
+
+    ENTIER     shift, and go to state 45
+    REEL       shift, and go to state 46
+    CARACTERE  shift, and go to state 47
+    BOOLEEN    shift, and go to state 48
+
+    type_simple  go to state 93
+
+
+State 57
+
+   56 variable: IDF POINT . structure_variable
+
+    IDF  shift, and go to state 94
+
+    structure_variable  go to state 95
+
+
+State 58
+
+   44 liste_arguments: PARENTHESE_OUVRANTE . liste_args PARENTHESE_FERMANTE
+
+    NOT                  shift, and go to state 62
+    PARENTHESE_OUVRANTE  shift, and go to state 63
+    IDF                  shift, and go to state 64
+    CSTE_ENTIERE         shift, and go to state 65
+    CSTE_REELE           shift, and go to state 66
+    CSTE_CARACTERE       shift, and go to state 67
+    CSTE_CHAINE          shift, and go to state 68
+    TRUE                 shift, and go to state 69
+    FALSE                shift, and go to state 70
+
+    liste_args          go to state 96
+    un_arg              go to state 97
+    variable            go to state 71
+    expression          go to state 98
+    expression_bool     go to state 99
+    expression_bool1    go to state 73
+    expression_bool2    go to state 74
+    expression_bool3    go to state 75
+    expression_comp     go to state 76
+    expression_arithm   go to state 100
+    expression_arithm1  go to state 78
+    expression_arithm2  go to state 79
+
+
+State 59
+
+   55 variable: IDF CROCHET_OUVRANT . dimention_variable CROCHET_FERMANT
+
+    PARENTHESE_OUVRANTE  shift, and go to state 101
+    IDF                  shift, and go to state 64
+    CSTE_ENTIERE         shift, and go to state 65
+    CSTE_REELE           shift, and go to state 66
+    CSTE_CARACTERE       shift, and go to state 67
+    CSTE_CHAINE          shift, and go to state 68
+
+    variable            go to state 71
+    dimention_variable  go to state 102
+    expression_arithm   go to state 103
+    expression_arithm1  go to state 78
+    expression_arithm2  go to state 79
+
+
+State 60
+
+   43 appel: IDF liste_arguments .
+
+    $default  reduce using rule 43 (appel)
+
+
+State 61
+
+   40 instruction: RETOURNE PARENTHESE_OUVRANTE . resultat_retourne PARENTHESE_FERMANTE
+
+    NOT                  shift, and go to state 62
+    PARENTHESE_OUVRANTE  shift, and go to state 63
+    IDF                  shift, and go to state 64
+    CSTE_ENTIERE         shift, and go to state 65
+    CSTE_REELE           shift, and go to state 66
+    CSTE_CARACTERE       shift, and go to state 67
+    CSTE_CHAINE          shift, and go to state 68
+    TRUE                 shift, and go to state 69
+    FALSE                shift, and go to state 70
+
+    $default  reduce using rule 42 (resultat_retourne)
+
+    resultat_retourne   go to state 104
+    variable            go to state 71
+    expression          go to state 105
+    expression_bool     go to state 99
+    expression_bool1    go to state 73
+    expression_bool2    go to state 74
+    expression_bool3    go to state 75
+    expression_comp     go to state 76
+    expression_arithm   go to state 100
+    expression_arithm1  go to state 78
+    expression_arithm2  go to state 79
+
+
+State 62
+
+   67 expression_bool2: NOT . expression_bool3
+
+    PARENTHESE_OUVRANTE  shift, and go to state 63
+    IDF                  shift, and go to state 64
+    CSTE_ENTIERE         shift, and go to state 65
+    CSTE_REELE           shift, and go to state 66
+    CSTE_CARACTERE       shift, and go to state 67
+    CSTE_CHAINE          shift, and go to state 68
+    TRUE                 shift, and go to state 69
+    FALSE                shift, and go to state 70
+
+    variable            go to state 71
+    expression_bool3    go to state 106
+    expression_comp     go to state 76
+    expression_arithm   go to state 77
+    expression_arithm1  go to state 78
+    expression_arithm2  go to state 79
+
+
+State 63
+
+   69 expression_bool3: PARENTHESE_OUVRANTE . expression_bool PARENTHESE_FERMANTE
+   90 expression_arithm2: PARENTHESE_OUVRANTE . expression_arithm PARENTHESE_FERMANTE
+
+    NOT                  shift, and go to state 62
+    PARENTHESE_OUVRANTE  shift, and go to state 63
+    IDF                  shift, and go to state 64
+    CSTE_ENTIERE         shift, and go to state 65
+    CSTE_REELE           shift, and go to state 66
+    CSTE_CARACTERE       shift, and go to state 67
+    CSTE_CHAINE          shift, and go to state 68
+    TRUE                 shift, and go to state 69
+    FALSE                shift, and go to state 70
+
+    variable            go to state 71
+    expression_bool     go to state 107
+    expression_bool1    go to state 73
+    expression_bool2    go to state 74
+    expression_bool3    go to state 75
+    expression_comp     go to state 76
+    expression_arithm   go to state 108
+    expression_arithm1  go to state 78
+    expression_arithm2  go to state 79
+
+
+State 64
+
+   54 variable: IDF .
+   55         | IDF . CROCHET_OUVRANT dimention_variable CROCHET_FERMANT
+   56         | IDF . POINT structure_variable
+
+    POINT            shift, and go to state 57
+    CROCHET_OUVRANT  shift, and go to state 59
+
+    $default  reduce using rule 54 (variable)
+
+
+State 65
+
+   92 expression_arithm2: CSTE_ENTIERE .
+
+    $default  reduce using rule 92 (expression_arithm2)
+
+
+State 66
+
+   93 expression_arithm2: CSTE_REELE .
+
+    $default  reduce using rule 93 (expression_arithm2)
+
+
+State 67
+
+   94 expression_arithm2: CSTE_CARACTERE .
+
+    $default  reduce using rule 94 (expression_arithm2)
+
+
+State 68
+
+   95 expression_arithm2: CSTE_CHAINE .
+
+    $default  reduce using rule 95 (expression_arithm2)
+
+
+State 69
+
+   71 expression_bool3: TRUE .
+   81 expression_comp: TRUE . EGAL expression_arithm
+
+    EGAL  shift, and go to state 109
+
+    $default  reduce using rule 71 (expression_bool3)
+
+
+State 70
+
+   72 expression_bool3: FALSE .
+   82 expression_comp: FALSE . DIFF expression_arithm
+
+    DIFF  shift, and go to state 110
+
+    $default  reduce using rule 72 (expression_bool3)
+
+
+State 71
+
+   91 expression_arithm2: variable .
+
+    $default  reduce using rule 91 (expression_arithm2)
+
+
+State 72
+
+   49 condition: SI expression_bool . ALORS suite_liste_inst FINSI
+   51 condition_2: SI expression_bool . ALORS suite_liste_inst SINON suite_liste_inst FINSI
+   63 expression_bool: expression_bool . OR expression_bool1
+
+    OR     shift, and go to state 111
+    ALORS  shift, and go to state 112
+
+
+State 73
+
+   64 expression_bool: expression_bool1 .
+   65 expression_bool1: expression_bool1 . AND expression_bool2
+
+    AND  shift, and go to state 113
+
+    $default  reduce using rule 64 (expression_bool)
+
+
+State 74
+
+   66 expression_bool1: expression_bool2 .
+
+    $default  reduce using rule 66 (expression_bool1)
+
+
+State 75
+
+   68 expression_bool2: expression_bool3 .
+
+    $default  reduce using rule 68 (expression_bool2)
+
+
+State 76
+
+   70 expression_bool3: expression_comp .
+
+    $default  reduce using rule 70 (expression_bool3)
+
+
+State 77
+
+   73 expression_comp: expression_arithm . SUP expression_arithm
+   74                | expression_arithm . SUP_EGL expression_arithm
+   75                | expression_arithm . INF expression_arithm
+   76                | expression_arithm . INF_EGL expression_arithm
+   77                | expression_arithm . EGAL expression_arithm
+   78                | expression_arithm . DIFF expression_arithm
+   79                | expression_arithm . EGAL TRUE
+   80                | expression_arithm . DIFF FALSE
+   83 expression_arithm: expression_arithm . PLUS expression_arithm1
+   84                  | expression_arithm . MOINS expression_arithm1
+
+    PLUS     shift, and go to state 114
+    MOINS    shift, and go to state 115
+    SUP      shift, and go to state 116
+    SUP_EGL  shift, and go to state 117
+    INF      shift, and go to state 118
+    INF_EGL  shift, and go to state 119
+    EGAL     shift, and go to state 120
+    DIFF     shift, and go to state 121
+
+
+State 78
+
+   85 expression_arithm: expression_arithm1 .
+   86 expression_arithm1: expression_arithm1 . MULT expression_arithm2
+   87                   | expression_arithm1 . DIV expression_arithm2
+   88                   | expression_arithm1 . MOD expression_arithm2
+
+    MULT  shift, and go to state 122
+    DIV   shift, and go to state 123
+    MOD   shift, and go to state 124
+
+    $default  reduce using rule 85 (expression_arithm)
+
+
+State 79
+
+   89 expression_arithm1: expression_arithm2 .
+
+    $default  reduce using rule 89 (expression_arithm1)
+
+
+State 80
+
+   52 tant_que: TANT_QUE expression_bool . liste_instructions
+   63 expression_bool: expression_bool . OR expression_bool1
+
+    OR     shift, and go to state 111
+    DEBUT  shift, and go to state 19
+
+    liste_instructions  go to state 125
+
+
+State 81
+
+    5 liste_instructions: DEBUT suite_liste_inst FIN .
+
+    $default  reduce using rule 5 (liste_instructions)
+
+
+State 82
+
+    6 suite_liste_inst: instruction POINT_VIRGULE . suite_liste_inst
+
+    IDF       shift, and go to state 27
+    VIDE      shift, and go to state 28
+    RETOURNE  shift, and go to state 29
+    SI        shift, and go to state 30
+    TANT_QUE  shift, and go to state 31
+
+    $default  reduce using rule 7 (suite_liste_inst)
+
+    suite_liste_inst  go to state 126
+    instruction       go to state 33
+    appel             go to state 34
+    condition         go to state 35
+    condition_2       go to state 36
+    tant_que          go to state 37
+    affectation       go to state 38
+    variable          go to state 39
+
+
+State 83
+
+   53 affectation: variable OPAFF . expression
+
+    NOT                  shift, and go to state 62
+    PARENTHESE_OUVRANTE  shift, and go to state 63
+    IDF                  shift, and go to state 64
+    CSTE_ENTIERE         shift, and go to state 65
+    CSTE_REELE           shift, and go to state 66
+    CSTE_CARACTERE       shift, and go to state 67
+    CSTE_CHAINE          shift, and go to state 68
+    TRUE                 shift, and go to state 69
+    FALSE                shift, and go to state 70
+
+    variable            go to state 71
+    expression          go to state 127
+    expression_bool     go to state 99
+    expression_bool1    go to state 73
+    expression_bool2    go to state 74
+    expression_bool3    go to state 75
+    expression_comp     go to state 76
+    expression_arithm   go to state 100
+    expression_arithm1  go to state 78
+    expression_arithm2  go to state 79
+
+
+State 84
+
+   17 une_dimension: CROCHET_OUVRANT . CSTE_ENTIERE POINT POINT CSTE_ENTIERE CROCHET_FERMANT
+
+    CSTE_ENTIERE  shift, and go to state 128
+
+
+State 85
+
+   14 suite_declaration_type: TABLEAU dimension . DE nom_type
+   15 dimension: dimension . une_dimension
+
+    CROCHET_OUVRANT  shift, and go to state 84
+    DE               shift, and go to state 129
+
+    une_dimension  go to state 130
+
+
+State 86
+
+   16 dimension: une_dimension .
+
+    $default  reduce using rule 16 (dimension)
+
+
+State 87
+
+   20 un_champ: IDF . DEUX_POINTS nom_type
+
+    DEUX_POINTS  shift, and go to state 131
+
+
+State 88
+
+   13 suite_declaration_type: STRUCT liste_champs . FSTRUCT
+
+    FSTRUCT  shift, and go to state 132
+
+
+State 89
+
+   18 liste_champs: un_champ . POINT_VIRGULE liste_champs
+   19             | un_champ . POINT_VIRGULE
+
+    POINT_VIRGULE  shift, and go to state 133
+
+
+State 90
+
+   34 un_param: IDF DEUX_POINTS . type_simple
+
+    ENTIER     shift, and go to state 45
+    REEL       shift, and go to state 46
+    CARACTERE  shift, and go to state 47
+    BOOLEEN    shift, and go to state 48
+
+    type_simple  go to state 134
+
+
+State 91
+
+   30 liste_parametres: PARENTHESE_OUVRANTE liste_param PARENTHESE_FERMANTE .
+
+    $default  reduce using rule 30 (liste_parametres)
+
+
+State 92
+
+   32 liste_param: un_param POINT_VIRGULE . liste_param
+
+    IDF  shift, and go to state 52
+
+    liste_param  go to state 135
+    un_param     go to state 54
+
+
+State 93
+
+   29 declaration_fonction: FONCTION IDF liste_parametres RETOURNE type_simple . corps
+
+    TYPE       shift, and go to state 3
+    VARIABLE   shift, and go to state 4
+    PROCEDURE  shift, and go to state 5
+    FONCTION   shift, and go to state 6
+
+    $default  reduce using rule 4 (liste_declarations)
+
+    corps                  go to state 136
+    liste_declarations     go to state 8
+    declaration            go to state 9
+    declaration_type       go to state 10
+    declaration_variable   go to state 11
+    declaration_procedure  go to state 12
+    declaration_fonction   go to state 13
+
+
+State 94
+
+   60 structure_variable: IDF .
+
+    $default  reduce using rule 60 (structure_variable)
+
+
+State 95
+
+   56 variable: IDF POINT structure_variable .
+   59 structure_variable: structure_variable . POINT IDF
+
+    POINT  shift, and go to state 137
+
+    $default  reduce using rule 56 (variable)
+
+
+State 96
+
+   44 liste_arguments: PARENTHESE_OUVRANTE liste_args . PARENTHESE_FERMANTE
+   46 liste_args: liste_args . VIRGULE un_arg
+
+    VIRGULE              shift, and go to state 138
+    PARENTHESE_FERMANTE  shift, and go to state 139
+
+
+State 97
+
+   47 liste_args: un_arg .
+
+    $default  reduce using rule 47 (liste_args)
+
+
+State 98
+
+   48 un_arg: expression .
+
+    $default  reduce using rule 48 (un_arg)
+
+
+State 99
+
+   61 expression: expression_bool .
+   63 expression_bool: expression_bool . OR expression_bool1
+
+    OR  shift, and go to state 111
+
+    $default  reduce using rule 61 (expression)
+
+
+State 100
+
+   62 expression: expression_arithm .
+   73 expression_comp: expression_arithm . SUP expression_arithm
+   74                | expression_arithm . SUP_EGL expression_arithm
+   75                | expression_arithm . INF expression_arithm
+   76                | expression_arithm . INF_EGL expression_arithm
+   77                | expression_arithm . EGAL expression_arithm
+   78                | expression_arithm . DIFF expression_arithm
+   79                | expression_arithm . EGAL TRUE
+   80                | expression_arithm . DIFF FALSE
+   83 expression_arithm: expression_arithm . PLUS expression_arithm1
+   84                  | expression_arithm . MOINS expression_arithm1
+
+    PLUS     shift, and go to state 114
+    MOINS    shift, and go to state 115
+    SUP      shift, and go to state 116
+    SUP_EGL  shift, and go to state 117
+    INF      shift, and go to state 118
+    INF_EGL  shift, and go to state 119
+    EGAL     shift, and go to state 120
+    DIFF     shift, and go to state 121
+
+    $default  reduce using rule 62 (expression)
+
+
+State 101
+
+   90 expression_arithm2: PARENTHESE_OUVRANTE . expression_arithm PARENTHESE_FERMANTE
+
+    PARENTHESE_OUVRANTE  shift, and go to state 101
+    IDF                  shift, and go to state 64
+    CSTE_ENTIERE         shift, and go to state 65
+    CSTE_REELE           shift, and go to state 66
+    CSTE_CARACTERE       shift, and go to state 67
+    CSTE_CHAINE          shift, and go to state 68
+
+    variable            go to state 71
+    expression_arithm   go to state 140
+    expression_arithm1  go to state 78
+    expression_arithm2  go to state 79
+
+
+State 102
+
+   55 variable: IDF CROCHET_OUVRANT dimention_variable . CROCHET_FERMANT
+   57 dimention_variable: dimention_variable . VIRGULE expression_arithm
+
+    VIRGULE          shift, and go to state 141
+    CROCHET_FERMANT  shift, and go to state 142
+
+
+State 103
+
+   58 dimention_variable: expression_arithm .
+   83 expression_arithm: expression_arithm . PLUS expression_arithm1
+   84                  | expression_arithm . MOINS expression_arithm1
+
+    PLUS   shift, and go to state 114
+    MOINS  shift, and go to state 115
+
+    $default  reduce using rule 58 (dimention_variable)
+
+
+State 104
+
+   40 instruction: RETOURNE PARENTHESE_OUVRANTE resultat_retourne . PARENTHESE_FERMANTE
+
+    PARENTHESE_FERMANTE  shift, and go to state 143
+
+
+State 105
+
+   41 resultat_retourne: expression .
+
+    $default  reduce using rule 41 (resultat_retourne)
+
+
+State 106
+
+   67 expression_bool2: NOT expression_bool3 .
+
+    $default  reduce using rule 67 (expression_bool2)
+
+
+State 107
+
+   63 expression_bool: expression_bool . OR expression_bool1
+   69 expression_bool3: PARENTHESE_OUVRANTE expression_bool . PARENTHESE_FERMANTE
+
+    PARENTHESE_FERMANTE  shift, and go to state 144
+    OR                   shift, and go to state 111
+
+
+State 108
+
+   73 expression_comp: expression_arithm . SUP expression_arithm
+   74                | expression_arithm . SUP_EGL expression_arithm
+   75                | expression_arithm . INF expression_arithm
+   76                | expression_arithm . INF_EGL expression_arithm
+   77                | expression_arithm . EGAL expression_arithm
+   78                | expression_arithm . DIFF expression_arithm
+   79                | expression_arithm . EGAL TRUE
+   80                | expression_arithm . DIFF FALSE
+   83 expression_arithm: expression_arithm . PLUS expression_arithm1
+   84                  | expression_arithm . MOINS expression_arithm1
+   90 expression_arithm2: PARENTHESE_OUVRANTE expression_arithm . PARENTHESE_FERMANTE
+
+    PLUS                 shift, and go to state 114
+    MOINS                shift, and go to state 115
+    SUP                  shift, and go to state 116
+    SUP_EGL              shift, and go to state 117
+    INF                  shift, and go to state 118
+    INF_EGL              shift, and go to state 119
+    EGAL                 shift, and go to state 120
+    DIFF                 shift, and go to state 121
+    PARENTHESE_FERMANTE  shift, and go to state 145
+
+
+State 109
+
+   81 expression_comp: TRUE EGAL . expression_arithm
+
+    PARENTHESE_OUVRANTE  shift, and go to state 101
+    IDF                  shift, and go to state 64
+    CSTE_ENTIERE         shift, and go to state 65
+    CSTE_REELE           shift, and go to state 66
+    CSTE_CARACTERE       shift, and go to state 67
+    CSTE_CHAINE          shift, and go to state 68
+
+    variable            go to state 71
+    expression_arithm   go to state 146
+    expression_arithm1  go to state 78
+    expression_arithm2  go to state 79
+
+
+State 110
+
+   82 expression_comp: FALSE DIFF . expression_arithm
+
+    PARENTHESE_OUVRANTE  shift, and go to state 101
+    IDF                  shift, and go to state 64
+    CSTE_ENTIERE         shift, and go to state 65
+    CSTE_REELE           shift, and go to state 66
+    CSTE_CARACTERE       shift, and go to state 67
+    CSTE_CHAINE          shift, and go to state 68
+
+    variable            go to state 71
+    expression_arithm   go to state 147
+    expression_arithm1  go to state 78
+    expression_arithm2  go to state 79
+
+
+State 111
+
+   63 expression_bool: expression_bool OR . expression_bool1
+
+    NOT                  shift, and go to state 62
+    PARENTHESE_OUVRANTE  shift, and go to state 63
+    IDF                  shift, and go to state 64
+    CSTE_ENTIERE         shift, and go to state 65
+    CSTE_REELE           shift, and go to state 66
+    CSTE_CARACTERE       shift, and go to state 67
+    CSTE_CHAINE          shift, and go to state 68
+    TRUE                 shift, and go to state 69
+    FALSE                shift, and go to state 70
+
+    variable            go to state 71
+    expression_bool1    go to state 148
+    expression_bool2    go to state 74
+    expression_bool3    go to state 75
+    expression_comp     go to state 76
+    expression_arithm   go to state 77
+    expression_arithm1  go to state 78
+    expression_arithm2  go to state 79
+
+
+State 112
+
+   49 condition: SI expression_bool ALORS . suite_liste_inst FINSI
+   51 condition_2: SI expression_bool ALORS . suite_liste_inst SINON suite_liste_inst FINSI
+
+    IDF       shift, and go to state 27
+    VIDE      shift, and go to state 28
+    RETOURNE  shift, and go to state 29
+    SI        shift, and go to state 30
+    TANT_QUE  shift, and go to state 31
+
+    $default  reduce using rule 7 (suite_liste_inst)
+
+    suite_liste_inst  go to state 149
+    instruction       go to state 33
+    appel             go to state 34
+    condition         go to state 35
+    condition_2       go to state 36
+    tant_que          go to state 37
+    affectation       go to state 38
+    variable          go to state 39
+
+
+State 113
+
+   65 expression_bool1: expression_bool1 AND . expression_bool2
+
+    NOT                  shift, and go to state 62
+    PARENTHESE_OUVRANTE  shift, and go to state 63
+    IDF                  shift, and go to state 64
+    CSTE_ENTIERE         shift, and go to state 65
+    CSTE_REELE           shift, and go to state 66
+    CSTE_CARACTERE       shift, and go to state 67
+    CSTE_CHAINE          shift, and go to state 68
+    TRUE                 shift, and go to state 69
+    FALSE                shift, and go to state 70
+
+    variable            go to state 71
+    expression_bool2    go to state 150
+    expression_bool3    go to state 75
+    expression_comp     go to state 76
+    expression_arithm   go to state 77
+    expression_arithm1  go to state 78
+    expression_arithm2  go to state 79
+
+
+State 114
+
+   83 expression_arithm: expression_arithm PLUS . expression_arithm1
+
+    PARENTHESE_OUVRANTE  shift, and go to state 101
+    IDF                  shift, and go to state 64
+    CSTE_ENTIERE         shift, and go to state 65
+    CSTE_REELE           shift, and go to state 66
+    CSTE_CARACTERE       shift, and go to state 67
+    CSTE_CHAINE          shift, and go to state 68
+
+    variable            go to state 71
+    expression_arithm1  go to state 151
+    expression_arithm2  go to state 79
+
+
+State 115
+
+   84 expression_arithm: expression_arithm MOINS . expression_arithm1
+
+    PARENTHESE_OUVRANTE  shift, and go to state 101
+    IDF                  shift, and go to state 64
+    CSTE_ENTIERE         shift, and go to state 65
+    CSTE_REELE           shift, and go to state 66
+    CSTE_CARACTERE       shift, and go to state 67
+    CSTE_CHAINE          shift, and go to state 68
+
+    variable            go to state 71
+    expression_arithm1  go to state 152
+    expression_arithm2  go to state 79
+
+
+State 116
+
+   73 expression_comp: expression_arithm SUP . expression_arithm
+
+    PARENTHESE_OUVRANTE  shift, and go to state 101
+    IDF                  shift, and go to state 64
+    CSTE_ENTIERE         shift, and go to state 65
+    CSTE_REELE           shift, and go to state 66
+    CSTE_CARACTERE       shift, and go to state 67
+    CSTE_CHAINE          shift, and go to state 68
+
+    variable            go to state 71
+    expression_arithm   go to state 153
+    expression_arithm1  go to state 78
+    expression_arithm2  go to state 79
+
+
+State 117
+
+   74 expression_comp: expression_arithm SUP_EGL . expression_arithm
+
+    PARENTHESE_OUVRANTE  shift, and go to state 101
+    IDF                  shift, and go to state 64
+    CSTE_ENTIERE         shift, and go to state 65
+    CSTE_REELE           shift, and go to state 66
+    CSTE_CARACTERE       shift, and go to state 67
+    CSTE_CHAINE          shift, and go to state 68
+
+    variable            go to state 71
+    expression_arithm   go to state 154
+    expression_arithm1  go to state 78
+    expression_arithm2  go to state 79
+
+
+State 118
+
+   75 expression_comp: expression_arithm INF . expression_arithm
+
+    PARENTHESE_OUVRANTE  shift, and go to state 101
+    IDF                  shift, and go to state 64
+    CSTE_ENTIERE         shift, and go to state 65
+    CSTE_REELE           shift, and go to state 66
+    CSTE_CARACTERE       shift, and go to state 67
+    CSTE_CHAINE          shift, and go to state 68
+
+    variable            go to state 71
+    expression_arithm   go to state 155
+    expression_arithm1  go to state 78
+    expression_arithm2  go to state 79
+
+
+State 119
+
+   76 expression_comp: expression_arithm INF_EGL . expression_arithm
+
+    PARENTHESE_OUVRANTE  shift, and go to state 101
+    IDF                  shift, and go to state 64
+    CSTE_ENTIERE         shift, and go to state 65
+    CSTE_REELE           shift, and go to state 66
+    CSTE_CARACTERE       shift, and go to state 67
+    CSTE_CHAINE          shift, and go to state 68
+
+    variable            go to state 71
+    expression_arithm   go to state 156
+    expression_arithm1  go to state 78
+    expression_arithm2  go to state 79
+
+
+State 120
+
+   77 expression_comp: expression_arithm EGAL . expression_arithm
+   79                | expression_arithm EGAL . TRUE
+
+    PARENTHESE_OUVRANTE  shift, and go to state 101
+    IDF                  shift, and go to state 64
+    CSTE_ENTIERE         shift, and go to state 65
+    CSTE_REELE           shift, and go to state 66
+    CSTE_CARACTERE       shift, and go to state 67
+    CSTE_CHAINE          shift, and go to state 68
+    TRUE                 shift, and go to state 157
+
+    variable            go to state 71
+    expression_arithm   go to state 158
+    expression_arithm1  go to state 78
+    expression_arithm2  go to state 79
+
+
+State 121
+
+   78 expression_comp: expression_arithm DIFF . expression_arithm
+   80                | expression_arithm DIFF . FALSE
+
+    PARENTHESE_OUVRANTE  shift, and go to state 101
+    IDF                  shift, and go to state 64
+    CSTE_ENTIERE         shift, and go to state 65
+    CSTE_REELE           shift, and go to state 66
+    CSTE_CARACTERE       shift, and go to state 67
+    CSTE_CHAINE          shift, and go to state 68
+    FALSE                shift, and go to state 159
+
+    variable            go to state 71
+    expression_arithm   go to state 160
+    expression_arithm1  go to state 78
+    expression_arithm2  go to state 79
+
+
+State 122
+
+   86 expression_arithm1: expression_arithm1 MULT . expression_arithm2
+
+    PARENTHESE_OUVRANTE  shift, and go to state 101
+    IDF                  shift, and go to state 64
+    CSTE_ENTIERE         shift, and go to state 65
+    CSTE_REELE           shift, and go to state 66
+    CSTE_CARACTERE       shift, and go to state 67
+    CSTE_CHAINE          shift, and go to state 68
+
+    variable            go to state 71
+    expression_arithm2  go to state 161
+
+
+State 123
+
+   87 expression_arithm1: expression_arithm1 DIV . expression_arithm2
+
+    PARENTHESE_OUVRANTE  shift, and go to state 101
+    IDF                  shift, and go to state 64
+    CSTE_ENTIERE         shift, and go to state 65
+    CSTE_REELE           shift, and go to state 66
+    CSTE_CARACTERE       shift, and go to state 67
+    CSTE_CHAINE          shift, and go to state 68
+
+    variable            go to state 71
+    expression_arithm2  go to state 162
+
+
+State 124
+
+   88 expression_arithm1: expression_arithm1 MOD . expression_arithm2
+
+    PARENTHESE_OUVRANTE  shift, and go to state 101
+    IDF                  shift, and go to state 64
+    CSTE_ENTIERE         shift, and go to state 65
+    CSTE_REELE           shift, and go to state 66
+    CSTE_CARACTERE       shift, and go to state 67
+    CSTE_CHAINE          shift, and go to state 68
+
+    variable            go to state 71
+    expression_arithm2  go to state 163
+
+
+State 125
+
+   52 tant_que: TANT_QUE expression_bool liste_instructions .
+
+    $default  reduce using rule 52 (tant_que)
+
+
+State 126
+
+    6 suite_liste_inst: instruction POINT_VIRGULE suite_liste_inst .
+
+    $default  reduce using rule 6 (suite_liste_inst)
+
+
+State 127
+
+   53 affectation: variable OPAFF expression .
+
+    $default  reduce using rule 53 (affectation)
+
+
+State 128
+
+   17 une_dimension: CROCHET_OUVRANT CSTE_ENTIERE . POINT POINT CSTE_ENTIERE CROCHET_FERMANT
+
+    POINT  shift, and go to state 164
+
+
+State 129
+
+   14 suite_declaration_type: TABLEAU dimension DE . nom_type
+
+    IDF        shift, and go to state 44
+    ENTIER     shift, and go to state 45
+    REEL       shift, and go to state 46
+    CARACTERE  shift, and go to state 47
+    BOOLEEN    shift, and go to state 48
+
+    nom_type     go to state 165
+    type_simple  go to state 50
+
+
+State 130
+
+   15 dimension: dimension une_dimension .
+
+    $default  reduce using rule 15 (dimension)
+
+
+State 131
+
+   20 un_champ: IDF DEUX_POINTS . nom_type
+
+    IDF        shift, and go to state 44
+    ENTIER     shift, and go to state 45
+    REEL       shift, and go to state 46
+    CARACTERE  shift, and go to state 47
+    BOOLEEN    shift, and go to state 48
+
+    nom_type     go to state 166
+    type_simple  go to state 50
+
+
+State 132
+
+   13 suite_declaration_type: STRUCT liste_champs FSTRUCT .
+
+    $default  reduce using rule 13 (suite_declaration_type)
+
+
+State 133
+
+   18 liste_champs: un_champ POINT_VIRGULE . liste_champs
+   19             | un_champ POINT_VIRGULE .
+
+    IDF  shift, and go to state 87
+
+    $default  reduce using rule 19 (liste_champs)
+
+    liste_champs  go to state 167
+    un_champ      go to state 89
+
+
+State 134
+
+   34 un_param: IDF DEUX_POINTS type_simple .
+
+    $default  reduce using rule 34 (un_param)
+
+
+State 135
+
+   32 liste_param: un_param POINT_VIRGULE liste_param .
+
+    $default  reduce using rule 32 (liste_param)
+
+
+State 136
+
+   29 declaration_fonction: FONCTION IDF liste_parametres RETOURNE type_simple corps .
+
+    $default  reduce using rule 29 (declaration_fonction)
+
+
+State 137
+
+   59 structure_variable: structure_variable POINT . IDF
+
+    IDF  shift, and go to state 168
+
+
+State 138
+
+   46 liste_args: liste_args VIRGULE . un_arg
+
+    NOT                  shift, and go to state 62
+    PARENTHESE_OUVRANTE  shift, and go to state 63
+    IDF                  shift, and go to state 64
+    CSTE_ENTIERE         shift, and go to state 65
+    CSTE_REELE           shift, and go to state 66
+    CSTE_CARACTERE       shift, and go to state 67
+    CSTE_CHAINE          shift, and go to state 68
+    TRUE                 shift, and go to state 69
+    FALSE                shift, and go to state 70
+
+    un_arg              go to state 169
+    variable            go to state 71
+    expression          go to state 98
+    expression_bool     go to state 99
+    expression_bool1    go to state 73
+    expression_bool2    go to state 74
+    expression_bool3    go to state 75
+    expression_comp     go to state 76
+    expression_arithm   go to state 100
+    expression_arithm1  go to state 78
+    expression_arithm2  go to state 79
+
+
+State 139
+
+   44 liste_arguments: PARENTHESE_OUVRANTE liste_args PARENTHESE_FERMANTE .
+
+    $default  reduce using rule 44 (liste_arguments)
+
+
+State 140
+
+   83 expression_arithm: expression_arithm . PLUS expression_arithm1
+   84                  | expression_arithm . MOINS expression_arithm1
+   90 expression_arithm2: PARENTHESE_OUVRANTE expression_arithm . PARENTHESE_FERMANTE
+
+    PLUS                 shift, and go to state 114
+    MOINS                shift, and go to state 115
+    PARENTHESE_FERMANTE  shift, and go to state 145
+
+
+State 141
+
+   57 dimention_variable: dimention_variable VIRGULE . expression_arithm
+
+    PARENTHESE_OUVRANTE  shift, and go to state 101
+    IDF                  shift, and go to state 64
+    CSTE_ENTIERE         shift, and go to state 65
+    CSTE_REELE           shift, and go to state 66
+    CSTE_CARACTERE       shift, and go to state 67
+    CSTE_CHAINE          shift, and go to state 68
+
+    variable            go to state 71
+    expression_arithm   go to state 170
+    expression_arithm1  go to state 78
+    expression_arithm2  go to state 79
+
+
+State 142
+
+   55 variable: IDF CROCHET_OUVRANT dimention_variable CROCHET_FERMANT .
+
+    $default  reduce using rule 55 (variable)
+
+
+State 143
+
+   40 instruction: RETOURNE PARENTHESE_OUVRANTE resultat_retourne PARENTHESE_FERMANTE .
+
+    $default  reduce using rule 40 (instruction)
+
+
+State 144
+
+   69 expression_bool3: PARENTHESE_OUVRANTE expression_bool PARENTHESE_FERMANTE .
+
+    $default  reduce using rule 69 (expression_bool3)
+
+
+State 145
+
+   90 expression_arithm2: PARENTHESE_OUVRANTE expression_arithm PARENTHESE_FERMANTE .
+
+    $default  reduce using rule 90 (expression_arithm2)
+
+
+State 146
+
+   81 expression_comp: TRUE EGAL expression_arithm .
+   83 expression_arithm: expression_arithm . PLUS expression_arithm1
+   84                  | expression_arithm . MOINS expression_arithm1
+
+    PLUS   shift, and go to state 114
+    MOINS  shift, and go to state 115
+
+    $default  reduce using rule 81 (expression_comp)
+
+
+State 147
+
+   82 expression_comp: FALSE DIFF expression_arithm .
+   83 expression_arithm: expression_arithm . PLUS expression_arithm1
+   84                  | expression_arithm . MOINS expression_arithm1
+
+    PLUS   shift, and go to state 114
+    MOINS  shift, and go to state 115
+
+    $default  reduce using rule 82 (expression_comp)
+
+
+State 148
+
+   63 expression_bool: expression_bool OR expression_bool1 .
+   65 expression_bool1: expression_bool1 . AND expression_bool2
+
+    AND  shift, and go to state 113
+
+    $default  reduce using rule 63 (expression_bool)
+
+
+State 149
+
+   49 condition: SI expression_bool ALORS suite_liste_inst . FINSI
+   51 condition_2: SI expression_bool ALORS suite_liste_inst . SINON suite_liste_inst FINSI
+
+    SINON  shift, and go to state 171
+    FINSI  shift, and go to state 172
+
+
+State 150
+
+   65 expression_bool1: expression_bool1 AND expression_bool2 .
+
+    $default  reduce using rule 65 (expression_bool1)
+
+
+State 151
+
+   83 expression_arithm: expression_arithm PLUS expression_arithm1 .
+   86 expression_arithm1: expression_arithm1 . MULT expression_arithm2
+   87                   | expression_arithm1 . DIV expression_arithm2
+   88                   | expression_arithm1 . MOD expression_arithm2
+
+    MULT  shift, and go to state 122
+    DIV   shift, and go to state 123
+    MOD   shift, and go to state 124
+
+    $default  reduce using rule 83 (expression_arithm)
+
+
+State 152
+
+   84 expression_arithm: expression_arithm MOINS expression_arithm1 .
+   86 expression_arithm1: expression_arithm1 . MULT expression_arithm2
+   87                   | expression_arithm1 . DIV expression_arithm2
+   88                   | expression_arithm1 . MOD expression_arithm2
+
+    MULT  shift, and go to state 122
+    DIV   shift, and go to state 123
+    MOD   shift, and go to state 124
+
+    $default  reduce using rule 84 (expression_arithm)
+
+
+State 153
+
+   73 expression_comp: expression_arithm SUP expression_arithm .
+   83 expression_arithm: expression_arithm . PLUS expression_arithm1
+   84                  | expression_arithm . MOINS expression_arithm1
+
+    PLUS   shift, and go to state 114
+    MOINS  shift, and go to state 115
+
+    $default  reduce using rule 73 (expression_comp)
+
+
+State 154
+
+   74 expression_comp: expression_arithm SUP_EGL expression_arithm .
+   83 expression_arithm: expression_arithm . PLUS expression_arithm1
+   84                  | expression_arithm . MOINS expression_arithm1
+
+    PLUS   shift, and go to state 114
+    MOINS  shift, and go to state 115
+
+    $default  reduce using rule 74 (expression_comp)
+
+
+State 155
+
+   75 expression_comp: expression_arithm INF expression_arithm .
+   83 expression_arithm: expression_arithm . PLUS expression_arithm1
+   84                  | expression_arithm . MOINS expression_arithm1
+
+    PLUS   shift, and go to state 114
+    MOINS  shift, and go to state 115
+
+    $default  reduce using rule 75 (expression_comp)
+
+
+State 156
+
+   76 expression_comp: expression_arithm INF_EGL expression_arithm .
+   83 expression_arithm: expression_arithm . PLUS expression_arithm1
+   84                  | expression_arithm . MOINS expression_arithm1
+
+    PLUS   shift, and go to state 114
+    MOINS  shift, and go to state 115
+
+    $default  reduce using rule 76 (expression_comp)
+
+
+State 157
+
+   79 expression_comp: expression_arithm EGAL TRUE .
+
+    $default  reduce using rule 79 (expression_comp)
+
+
+State 158
+
+   77 expression_comp: expression_arithm EGAL expression_arithm .
+   83 expression_arithm: expression_arithm . PLUS expression_arithm1
+   84                  | expression_arithm . MOINS expression_arithm1
+
+    PLUS   shift, and go to state 114
+    MOINS  shift, and go to state 115
+
+    $default  reduce using rule 77 (expression_comp)
+
+
+State 159
+
+   80 expression_comp: expression_arithm DIFF FALSE .
+
+    $default  reduce using rule 80 (expression_comp)
+
+
+State 160
+
+   78 expression_comp: expression_arithm DIFF expression_arithm .
+   83 expression_arithm: expression_arithm . PLUS expression_arithm1
+   84                  | expression_arithm . MOINS expression_arithm1
+
+    PLUS   shift, and go to state 114
+    MOINS  shift, and go to state 115
+
+    $default  reduce using rule 78 (expression_comp)
+
+
+State 161
+
+   86 expression_arithm1: expression_arithm1 MULT expression_arithm2 .
+
+    $default  reduce using rule 86 (expression_arithm1)
+
+
+State 162
+
+   87 expression_arithm1: expression_arithm1 DIV expression_arithm2 .
+
+    $default  reduce using rule 87 (expression_arithm1)
+
+
+State 163
+
+   88 expression_arithm1: expression_arithm1 MOD expression_arithm2 .
+
+    $default  reduce using rule 88 (expression_arithm1)
+
+
+State 164
+
+   17 une_dimension: CROCHET_OUVRANT CSTE_ENTIERE POINT . POINT CSTE_ENTIERE CROCHET_FERMANT
+
+    POINT  shift, and go to state 173
+
+
+State 165
+
+   14 suite_declaration_type: TABLEAU dimension DE nom_type .
+
+    $default  reduce using rule 14 (suite_declaration_type)
+
+
+State 166
+
+   20 un_champ: IDF DEUX_POINTS nom_type .
+
+    $default  reduce using rule 20 (un_champ)
+
+
+State 167
+
+   18 liste_champs: un_champ POINT_VIRGULE liste_champs .
+
+    $default  reduce using rule 18 (liste_champs)
+
+
+State 168
+
+   59 structure_variable: structure_variable POINT IDF .
+
+    $default  reduce using rule 59 (structure_variable)
+
+
+State 169
+
+   46 liste_args: liste_args VIRGULE un_arg .
+
+    $default  reduce using rule 46 (liste_args)
+
+
+State 170
+
+   57 dimention_variable: dimention_variable VIRGULE expression_arithm .
+   83 expression_arithm: expression_arithm . PLUS expression_arithm1
+   84                  | expression_arithm . MOINS expression_arithm1
+
+    PLUS   shift, and go to state 114
+    MOINS  shift, and go to state 115
+
+    $default  reduce using rule 57 (dimention_variable)
+
+
+State 171
+
+   51 condition_2: SI expression_bool ALORS suite_liste_inst SINON . suite_liste_inst FINSI
+
+    IDF       shift, and go to state 27
+    VIDE      shift, and go to state 28
+    RETOURNE  shift, and go to state 29
+    SI        shift, and go to state 30
+    TANT_QUE  shift, and go to state 31
+
+    $default  reduce using rule 7 (suite_liste_inst)
+
+    suite_liste_inst  go to state 174
+    instruction       go to state 33
+    appel             go to state 34
+    condition         go to state 35
+    condition_2       go to state 36
+    tant_que          go to state 37
+    affectation       go to state 38
+    variable          go to state 39
+
+
+State 172
+
+   49 condition: SI expression_bool ALORS suite_liste_inst FINSI .
+
+    $default  reduce using rule 49 (condition)
+
+
+State 173
+
+   17 une_dimension: CROCHET_OUVRANT CSTE_ENTIERE POINT POINT . CSTE_ENTIERE CROCHET_FERMANT
+
+    CSTE_ENTIERE  shift, and go to state 175
+
+
+State 174
+
+   51 condition_2: SI expression_bool ALORS suite_liste_inst SINON suite_liste_inst . FINSI
+
+    FINSI  shift, and go to state 176
+
+
+State 175
+
+   17 une_dimension: CROCHET_OUVRANT CSTE_ENTIERE POINT POINT CSTE_ENTIERE . CROCHET_FERMANT
+
+    CROCHET_FERMANT  shift, and go to state 177
+
+
+State 176
+
+   51 condition_2: SI expression_bool ALORS suite_liste_inst SINON suite_liste_inst FINSI .
+
+    $default  reduce using rule 51 (condition_2)
+
+
+State 177
+
+   17 une_dimension: CROCHET_OUVRANT CSTE_ENTIERE POINT POINT CSTE_ENTIERE CROCHET_FERMANT .
+
+    $default  reduce using rule 17 (une_dimension)
